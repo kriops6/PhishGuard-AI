@@ -1,0 +1,5 @@
+url,length,num_dots,is_https,is_phishing
+https://google.com,18,1,1,0
+http://secure-login-paypal.xyz,30,2,0,1
+https://example.com,19,1,1,0
+http://micros0ft.login.com.update.192.168.0.1.xyz,50,6,0,1
