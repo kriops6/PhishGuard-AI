@@ -1,28 +1,26 @@
 # Threat Detection Heuristics
 
-This document outlines the core security rules and heuristic analysis implemented in the `PhishGuard AI` engine. 
+Notes on the core security rules implemented in the engine. Instead of relying on blacklists, the system evaluates the actual structure and behavior of the URL and the page DOM.
 
-Instead of relying solely on blacklists (which become outdated immediately), this system evaluates the underlying structure and behavior of URLs and webpage DOMs.
-
-## 1. Algorithmic Typosquatting (Levenshtein Distance)
-Scammers frequently register domains that look almost identical to legitimate ones (e.g., `paypa1.com` instead of `paypal.com`).
-- **How it works:** The engine calculates the **Levenshtein Distance** between the extracted base domain and a list of high-value targets (Google, PayPal, Apple, etc.). 
-- **Trigger:** If the mathematical distance is exactly 1 or 2 character edits away from a major site (but not a perfect match), it adds a heavy risk penalty.
+## 1. Typosquatting (Levenshtein Distance)
+Scammers register domains that look almost identical to legitimate ones (e.g., `paypa1.com` instead of `paypal.com`).
+- **Logic:** Calculates the Levenshtein Distance between the base domain and a hardcoded list of high-value targets. 
+- **Trigger:** If the distance is 1 or 2 character edits away from a major site (and not an exact match), it gets flagged.
 
 ## 2. Punycode & Homograph Attacks
-Homograph attacks substitute standard English letters for visually identical characters from other languages (like Cyrillic). 
-- **How it works:** The browser converts these fake characters into a Punycode string (starting with `xn--`) for DNS resolution.
-- **Trigger:** We inspect the raw domain string for non-ASCII characters (`ord(c) > 128`) and the `xn--` prefix. If found, the site is flagged with a critical risk penalty.
+Substituting standard English letters for visually identical characters from other languages (like Cyrillic 'a'). 
+- **Logic:** Browsers convert these into Punycode (`xn--`) for DNS resolution.
+- **Trigger:** We check the domain string for non-ASCII characters and the `xn--` prefix.
 
-## 3. DOM-Based Data Exfiltration (Cross-Origin Action)
-A page might look perfectly safe, but the HTML `<form>` might be configured to send user inputs to an attacker's server.
-- **How it works:** The Chrome Extension injects `content.js` into the DOM, finds all `<input type="password">` fields, and traverses up to the parent `<form>`. 
-- **Trigger:** It checks the `action` attribute. If the form resolves to a different hostname than the one the user is currently on, it triggers a `has_cross_site_action` flag, adding +40 to the risk score.
+## 3. DOM Data Exfiltration (Cross-Origin form action)
+A page might look safe, but the `<form>` sends user inputs to a different server.
+- **Logic:** The extension's content script finds `<input type="password">` fields and checks their parent `<form>`. 
+- **Trigger:** If the form `action` resolves to a different hostname than the current tab, the `has_cross_site_action` flag triggers.
 
 ## 4. Subdomain Nesting & Masking
-Attackers try to confuse users by adding legitimate-sounding words to subdomains or using the `@` symbol to hide the actual destination.
-- **Rules applied:**
-  - URL length > 75 characters.
-  - Presence of `@` in the URL (HTTP Basic Auth masking).
-  - High frequency of dots (`.`) indicating deep subdomain nesting (e.g., `update.secure.login.paypal.sketchysite.com`).
-  - Presence of contextual keywords (`verify`, `secure`, `bank`).
+Adding legitimate-sounding words to subdomains or using `@` to obscure the destination.
+- **Rules:**
+  - URL > 75 characters.
+  - `@` symbol present in the URL.
+  - Excessive dots (`.`) indicating deep nesting (e.g., `update.secure.login.bank.com`).
+  - Presence of keywords (`verify`, `secure`, `bank`).

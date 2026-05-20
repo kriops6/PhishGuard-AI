@@ -1,47 +1,41 @@
-# Setup & Installation Guide
+# Setup Guide
 
-This guide covers how to set up the local development environment for both the FastAPI backend and the Chrome Extension frontend.
+How to get the backend and frontend running locally.
 
 ## Prerequisites
 - Python 3.10+
-- Google Chrome (or Chromium-based browser)
+- Chromium-based browser
 
 ---
 
-## 1. Backend Server Setup
-
-The backend handles the heuristic analysis and machine learning calculations.
+## 1. Backend Server
 
 1. **Navigate to the backend directory:**
    ```bash
    cd backend
    ```
-2. **Create an isolated Virtual Environment:**
+2. **Setup virtual environment:**
    ```bash
    python -m venv venv
    ```
-3. **Activate the Virtual Environment:**
+3. **Activate it:**
    - **Linux/macOS:** `source venv/bin/activate`
    - **Windows:** `venv\Scripts\activate`
-4. **Install Dependencies:**
+4. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
-5. **Start the API Server:**
+5. **Run the server:**
    ```bash
    python main.py
    ```
-   *The server should now be running asynchronously on `http://localhost:8000`.*
+   *Runs on `http://localhost:8000`.*
 
 ---
 
-## 2. Frontend Browser Extension Setup
+## 2. Chrome Extension
 
-The frontend is a Manifest V3 Chrome Extension. It requires the backend to be running to calculate risk scores.
-
-1. Open Google Chrome.
-2. Type `chrome://extensions/` in the URL bar and press Enter.
-3. Toggle **Developer mode** on (top right corner).
-4. Click the **Load unpacked** button (top left).
-5. Select the `frontend` folder located inside the `PhishGuard AI` project directory.
-6. The extension is now installed. Pin it to your toolbar for easy access!
+1. Open Chrome and head to `chrome://extensions/`.
+2. Toggle **Developer mode** in the top right.
+3. Click **Load unpacked**.
+4. Select the `frontend` folder from this repo.

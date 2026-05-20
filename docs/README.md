@@ -1,18 +1,18 @@
 # PhishGuard AI
 
-A real-time phishing detection system built with a custom Manifest V3 Chrome Extension and an asynchronous Python/FastAPI backend. Designed to evaluate URL structures, DOM elements, and masking characters to actively warn users before they submit sensitive data to malicious pages.
+A phishing detection system using a Manifest V3 Chrome Extension and a Python/FastAPI backend. It evaluates URL anomalies, DOM elements, and masking characters to warn users before they submit credentials to sketchy pages.
 
 ## Project Structure
-- **/frontend** - JavaScript/HTML Chrome Extension.
-- **/backend** - FastAPI server for risk calculation.
-- **/model** - Stub for Scikit-Learn Logistic Regression training.
-- **/docs** - Extended documentation and technical specs.
+- **/frontend** - Chrome Extension (HTML/CSS/JS).
+- **/backend** - FastAPI server for the risk engine.
+- **/model** - Logistic Regression training scripts and datasets.
+- **/docs** - Docs and architecture notes.
 
-## Documentation
-- [Architecture Diagram](Architecture.md) - System flow and components.
-- [Setup & Installation](SETUP.md) - How to run the local dev environment.
-- [Threat Detection Heuristics](HEURISTICS.md) - Explanation of the math and security concepts used (Levenshtein distance, Homograph detection, DOM tracking).
+## Docs
+- [Architecture](Architecture.md) - System flow
+- [Setup Guide](SETUP.md) - Local dev environment instructions
+- [Heuristics](HEURISTICS.md) - Notes on the detection logic (typosquatting, homograph detection, DOM tracking)
 
-## Core Technologies
+## Tech Stack
 * Python, FastAPI, Scikit-Learn
 * JavaScript, HTML, CSS (Manifest V3)
